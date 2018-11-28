@@ -6,16 +6,16 @@ public class Task {
     private long id;
     private String name;
     private String description;
-    private int time;
+    private long time;
     private boolean completed;
 
 
-    public Task( String name, String description, int time, boolean completed) {
+    public Task( String name, String description, long time, boolean completed) {
        this(0, name, description,time, completed);
 
     }
 
-    public Task(long id, String name, String description, int time, boolean completed) {
+    public Task(long id, String name, String description, long time, boolean completed) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -48,11 +48,11 @@ public class Task {
         this.description = description;
     }
 
-    public int getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(long time) {
         this.time = time;
     }
 

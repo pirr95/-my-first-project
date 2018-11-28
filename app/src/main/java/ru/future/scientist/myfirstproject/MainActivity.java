@@ -1,15 +1,24 @@
 package ru.future.scientist.myfirstproject;
 
 import android.os.Bundle;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
 public class MainActivity extends AppCompatActivity {
+
+    private TaskAdapter adapter;
+    private TaskGenerator generator = new TaskGenerator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        initList();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -31,11 +42,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+
     }
 
     @Override
@@ -81,5 +94,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         Log.d(TAG, "onDestroy");
         super.onDestroy();
+    }
+
+    private void initList() {
+        RecyclerView rvTasks = findViewById(R.id.task);
+        rvTasks.setHasFixedSize(true);
+        rvTasks.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new TaskAdapter(generator.getTask(10));
+                rvTasks.setAdapter(adapter);
     }
 }
