@@ -21,10 +21,10 @@ public class AddTask extends AppCompatActivity {
 
 
     private TextInputLayout tilName;
+    private TextInputLayout tilDescription;
     private TextInputLayout tilDate;
     private TextInputLayout tilTime;
     private TaskGenerator generator = new TaskGenerator();
-    private String avatarLink = "";
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, AddTask.class);
@@ -37,6 +37,7 @@ public class AddTask extends AppCompatActivity {
 
 
         tilName = findViewById(R.id.tilName);
+        tilDescription = findViewById(R.id.tilDescription);
         tilDate = findViewById(R.id.tilDate);
         tilTime = findViewById(R.id.tilTime);
 
@@ -66,21 +67,25 @@ public class AddTask extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.actionAdd) {
             String name = tilName.getEditText().getText().toString();
+            String description = tilDescription.getEditText().getText().toString();
 
 
             String dateTime = tilDate.getEditText().getText().toString() + " " + tilTime.getEditText().getText().toString();
             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm"); // e.g. 24.10.2018 15:46
-            long task;
+            long date;
             try {
-                task = format.parse(dateTime).getTime();
+                date = format.parse(dateTime).getTime();
             } catch (ParseException e) {
-                task = new Date().getTime();
+                date = new Date().getTime();
                 Log.e("AddPersonActivity", "Date parse error", e);
             }
 
+            Task person = new Task(name, description, date, false);
+           // AppDatabase.getInstance(this).personDao().insertPerson(person);
+            finish();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-    }
-
-
     }
 }

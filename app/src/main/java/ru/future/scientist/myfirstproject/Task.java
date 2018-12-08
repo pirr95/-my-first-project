@@ -2,13 +2,20 @@ package ru.future.scientist.myfirstproject;
 
 import java.util.Objects;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "tasks")
 public class Task {
+    @PrimaryKey(autoGenerate = true)
     private long id;
     private String name;
     private String description;
     private long time;
     private boolean completed;
 
+    @Ignore
 
     public Task( String name, String description, long time, boolean completed) {
        this(0, name, description,time, completed);
