@@ -15,13 +15,13 @@ public class Task {
     private long time;
     private boolean completed;
 
-    @Ignore
+
 
     public Task( String name, String description, long time, boolean completed) {
        this(0, name, description,time, completed);
 
     }
-
+    @Ignore
     public Task(long id, String name, String description, long time, boolean completed) {
         this.id = id;
         this.name = name;

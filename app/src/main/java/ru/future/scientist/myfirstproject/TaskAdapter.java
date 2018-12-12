@@ -15,11 +15,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
+    private OnItemClickListener itemClickListener;
+
 
     List<Task> tasks;
 
-    public TaskAdapter(List<Task> tasks) {
+    public TaskAdapter(List<Task> tasks,OnItemClickListener itemClickListener) {
         this.tasks = tasks;
+        this.itemClickListener = itemClickListener;
+
     }
 
     @NonNull
@@ -31,7 +35,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
-        holder.bind(tasks.get(position));
+        holder.bind(tasks.get(position),itemClickListener);
 
     }
 
@@ -40,11 +44,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return tasks.size();
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(Task item);
+    }
+
+
     public static class  TaskViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvName;
         TextView tvTime;
         CheckBox cbCompleted;
+
 
 
         public TaskViewHolder(@NonNull View itemView) {
@@ -53,11 +63,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             tvTime = itemView.findViewById(R.id.tvTime);
             cbCompleted =  itemView.findViewById(R.id.cbCompleted);
         }
-        public void bind(Task task){
+        public void bind(Task task,final OnItemClickListener itemClickListener){
+            itemView.setOnClickListener(v -> itemClickListener.onItemClick(task));
             tvName.setText(task.getName());
             tvTime.setText(new Date(task.getTime()).toString());
             cbCompleted.setChecked(task.isCompleted());
 
         }
+
+    }
+    public void update(List<Task> tasks){
+        this.tasks.clear();
+        this.tasks.addAll(tasks);
+        notifyDataSetChanged();
     }
 }

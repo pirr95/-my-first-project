@@ -15,6 +15,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
+        updateList();
     }
+
 
     @Override
     protected void onResume() {
@@ -74,8 +79,15 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView rvTasks = findViewById(R.id.task);
         rvTasks.setHasFixedSize(true);
         rvTasks.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TaskAdapter(generator.getTask(10));
+        List<Task> tasks = AppDatabase.getInstance(this).taskDao().getAll();
+        adapter = new TaskAdapter(tasks, item -> {
+            Toast.makeText(this, item.getDescription(), Toast.LENGTH_LONG).show();
+        });
                 rvTasks.setAdapter(adapter);
 
+    }
+    private void updateList() {
+        List<Task> people = AppDatabase.getInstance(this).taskDao().getAll();
+        adapter.update(people);
     }
 }

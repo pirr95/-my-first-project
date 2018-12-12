@@ -80,8 +80,8 @@ public class AddTask extends AppCompatActivity {
                 Log.e("AddPersonActivity", "Date parse error", e);
             }
 
-            Task person = new Task(name, description, date, false);
-           // AppDatabase.getInstance(this).personDao().insertPerson(person);
+            Task task = new Task(name, description, date, false);
+           AppDatabase.getInstance(this).taskDao().insertTask(task);
             finish();
             return true;
         } else {
