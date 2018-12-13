@@ -7,6 +7,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.jar.Attributes;
@@ -66,7 +67,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         public void bind(Task task,final OnItemClickListener itemClickListener){
             itemView.setOnClickListener(v -> itemClickListener.onItemClick(task));
             tvName.setText(task.getName());
-            tvTime.setText(new Date(task.getTime()).toString());
+            SimpleDateFormat format = new SimpleDateFormat("dd MMMM yyyy HH:mm"); // e.g. 24 October 2018 15:46
+            Date date = new Date(task.getTime());
+            tvTime.setText(format.format(date));
             cbCompleted.setChecked(task.isCompleted());
 
         }

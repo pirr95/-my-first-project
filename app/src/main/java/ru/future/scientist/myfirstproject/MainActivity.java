@@ -4,18 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -79,13 +75,15 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView rvTasks = findViewById(R.id.task);
         rvTasks.setHasFixedSize(true);
         rvTasks.setLayoutManager(new LinearLayoutManager(this));
+        rvTasks.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         List<Task> tasks = AppDatabase.getInstance(this).taskDao().getAll();
         adapter = new TaskAdapter(tasks, item -> {
-            Toast.makeText(this, item.getDescription(), Toast.LENGTH_LONG).show();
-        });
-                rvTasks.setAdapter(adapter);
-
+            final Intent intent = TaskDetailsActivity.getStartIntent(this, item.getId());
+            startActivity(intent);
+         });
+        rvTasks.setAdapter(adapter);
     }
+
     private void updateList() {
         List<Task> people = AppDatabase.getInstance(this).taskDao().getAll();
         adapter.update(people);

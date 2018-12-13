@@ -20,11 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddTask" />
-        <activity
-            android:name=".task_details"
-            android:label="@string/title_activity_task_details"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity_task_details"></activity>
+        <activity android:name=".TaskDetailsActivity"></activity>
     </application>
 
 </manifest>
